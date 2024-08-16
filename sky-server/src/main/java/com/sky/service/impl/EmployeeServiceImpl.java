@@ -74,7 +74,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         // 对象属性拷贝
         BeanUtils.copyProperties(employeeDTO, employee);
-
         // 设置密码
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
         // 设置状态
@@ -95,6 +94,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         val total = page.getTotal();
         val records = page.getResult();
         return new PageResult(total, records);
+    }
+
+    @Override
+    public void startOrEnd(Integer status, Long id) {
+        val employee = Employee.builder().id(id).status(status).build();
+        employeeMapper.update(employee);
     }
 
 }
